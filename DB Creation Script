@@ -3,8 +3,8 @@
 ************************************************************/
 
 /********************** Create Database ************************/
-CREATE DATABASE IF NOT EXISTS ecocommute_db;
-USE ecocommute_db;
+CREATE DATABASE IF NOT EXISTS defaultdb;
+USE defaultdb;
 
 /********************** Drop Tables ******************/
 DROP TABLE IF EXISTS commutes;
