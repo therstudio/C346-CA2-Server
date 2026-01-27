@@ -1,15 +1,13 @@
 /************************************************************
- Envirosense — MySQL Database + Table Creation Script
- Users + Commutes + Commute Images
- (Matches your simplified server.js)
+ EcoCommute — MySQL Database + Table Creation Script (Simplified)
+ Users.image + Commutes.image (one image each)
 ************************************************************/
 
 /********************** Create Database ************************/
-CREATE DATABASE IF NOT EXISTS envirosense_db;
-USE envirosense_db;
+CREATE DATABASE IF NOT EXISTS ecocommute_db;
+USE ecocommute_db;
 
 /********************** Drop Tables (dev reset) ******************/
-DROP TABLE IF EXISTS commute_images;
 DROP TABLE IF EXISTS commutes;
 DROP TABLE IF EXISTS users;
 
@@ -19,9 +17,12 @@ CREATE TABLE users (
   username VARCHAR(50) NOT NULL,
   name VARCHAR(100) NOT NULL,
   email VARCHAR(120) NOT NULL,
-  password VARCHAR(120) NOT NULL,
+  password CHAR(40) NOT NULL, 
   phone VARCHAR(20) NULL,
-  avatar VARCHAR(255) NULL,
+
+  -- one profile image only (store filename OR "/uploads/filename")
+  image VARCHAR(255) NULL,
+
   PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
@@ -49,6 +50,9 @@ CREATE TABLE commutes (
   end_lng   DECIMAL(9,6) NULL,
   distance_km DECIMAL(6,2) NULL,
 
+  -- one commute image only (store filename OR "/uploads/filename")
+  image VARCHAR(255) NULL,
+
   PRIMARY KEY (id),
 
   FOREIGN KEY (user_id) REFERENCES users(id)
@@ -56,71 +60,39 @@ CREATE TABLE commutes (
     ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
-/********************** Create Table: commute_images **************/
-CREATE TABLE commute_images (
-  id INT NOT NULL AUTO_INCREMENT,
-  commute_id INT NOT NULL,
-  user_id INT NULL,
-  file_name VARCHAR(255) NULL,
-  file_path VARCHAR(255) NOT NULL,
-  PRIMARY KEY (id),
-
-  FOREIGN KEY (commute_id) REFERENCES commutes(id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-
-  FOREIGN KEY (user_id) REFERENCES users(id)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE
-) ENGINE=InnoDB;
 
 /************************************************************
  SAMPLE DATA
 ************************************************************/
 
 /********************** Sample Users *****************************/
-INSERT INTO users (username, name, email, password, phone, avatar) VALUES
-('irfanimr', 'Irfan', 'irfan@example.com', '1234', '91234567', NULL),
-('russell', 'Russell', 'russell@example.com', '1234', '98765432', NULL);
+INSERT INTO users (username, name, email, password, phone, image) VALUES
+('irfanimran', 'Irfan', 'irfan@gmail.com', SHA1('1234'), '91234567', NULL),
+('randyng', 'Randy', 'randy@example.com', SHA1('1234'), '98765432', NULL);
 
 /********************** Sample Commutes **************************/
 INSERT INTO commutes
 (user_id, from_label, to_label, mode, start_time, end_time, duration_min, purpose, notes,
- start_lat, start_lng, end_lat, end_lng, distance_km)
+ start_lat, start_lng, end_lat, end_lng, distance_km, image)
 VALUES
 (
   1, 'Home', 'Bedok MRT', 'walk',
   '2026-01-21 07:55:00', '2026-01-21 08:07:00', 12,
   'school', 'Morning walk to MRT',
-  1.324270, 103.930000, 1.323900, 103.932200, 0.35
+  1.324270, 103.930000, 1.323900, 103.932200, 0.35,
+  'sample_walk_1.jpg'
 ),
 (
   1, 'Bedok MRT', 'Republic Polytechnic', 'mrt',
   '2026-01-21 08:10:00', '2026-01-21 08:58:00', 48,
   'school', 'Crowded train',
-  1.323900, 103.932200, 1.442700, 103.785500, 18.20
+  1.323900, 103.932200, 1.442700, 103.785500, 18.20,
+  'sample_mrt_1.jpg'
 ),
 (
   2, 'Republic Polytechnic', 'Woodlands Interchange', 'bus',
   '2026-01-21 13:05:00', '2026-01-21 13:32:00', 27,
   'errand', 'Bus after lunch',
-  1.442700, 103.785500, 1.436000, 103.786900, 2.10
-),
-(
-  2, 'Woodlands Interchange', 'Home', 'mixed',
-  '2026-01-21 18:20:00', '2026-01-21 19:05:00', 45,
-  'home', 'Bus + short walk',
-  1.436000, 103.786900, 1.324270, 103.930000, 19.40
-),
-(
-  1, 'Home', 'Nearby Mall', 'car',
-  '2026-01-20 20:15:00', '2026-01-20 20:35:00', 20,
-  'errand', 'Quick drive for groceries',
-  NULL, NULL, NULL, NULL, NULL
+  1.442700, 103.785500, 1.436000, 103.786900, 2.10,
+  'sample_bus_1.jpg'
 );
-
-/********************** Sample Commute Images *********************/
-INSERT INTO commute_images (commute_id, user_id, file_name, file_path) VALUES
-(1, 1, 'walk-photo.jpg', 'sample_walk_1.jpg'),
-(2, 1, 'mrt-photo.jpg', 'sample_mrt_1.jpg'),
-(3, 2, 'bus-photo.jpg', 'sample_bus_1.jpg');
