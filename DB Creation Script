@@ -65,7 +65,7 @@ CREATE TABLE commutes (
 /********************** Sample Users *****************************/
 INSERT INTO users (username, name, email, password, phone, image) VALUES
 ('irfanimran', 'Irfan', 'irfan@gmail.com', SHA1('1234'), '91234567', NULL),
-('randyng', 'Randy', 'randy@example.com', SHA1('1234'), '98765432', NULL);
+('randyng', 'Randy', 'randy@gmail.com', SHA1('1234'), '98765432', NULL);
 
 /********************** Sample Commutes **************************/
 INSERT INTO commutes
