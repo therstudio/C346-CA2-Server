@@ -1,13 +1,12 @@
 /************************************************************
- EcoCommute — MySQL Database + Table Creation Script (Simplified)
- Users.image + Commutes.image (one image each)
+ EcoCommute — MySQL Database + Table Creation Script 
 ************************************************************/
 
 /********************** Create Database ************************/
 CREATE DATABASE IF NOT EXISTS ecocommute_db;
 USE ecocommute_db;
 
-/********************** Drop Tables (dev reset) ******************/
+/********************** Drop Tables ******************/
 DROP TABLE IF EXISTS commutes;
 DROP TABLE IF EXISTS users;
 
@@ -20,7 +19,6 @@ CREATE TABLE users (
   password CHAR(40) NOT NULL, 
   phone VARCHAR(20) NULL,
 
-  -- one profile image only (store filename OR "/uploads/filename")
   image VARCHAR(255) NULL,
 
   PRIMARY KEY (id)
@@ -50,7 +48,6 @@ CREATE TABLE commutes (
   end_lng   DECIMAL(9,6) NULL,
   distance_km DECIMAL(6,2) NULL,
 
-  -- one commute image only (store filename OR "/uploads/filename")
   image VARCHAR(255) NULL,
 
   PRIMARY KEY (id),

@@ -156,7 +156,7 @@ app.post("/login", async (req, res) => {
 });
 
 // ------- UPLOAD AVATAR -------
-// (kept route name the same, DB column is users.image)
+
 app.post("/users/:id/avatar", upload.single("image"), async (req, res) => {
   const userId = parseInt(req.params.id);
   let connection;
@@ -174,8 +174,8 @@ app.post("/users/:id/avatar", upload.single("image"), async (req, res) => {
 
     res.status(201).json({
       message: "Avatar uploaded",
-      avatarUrl: image ? "/uploads/" + image : null, // keep old key
-      imageUrl: image ? "/uploads/" + image : null, // also ok
+      avatarUrl: image ? "/uploads/" + image : null,
+      imageUrl: image ? "/uploads/" + image : null,
     });
   } catch (err) {
     console.log("POST /users/:id/avatar error:", err);
