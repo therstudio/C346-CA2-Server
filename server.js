@@ -444,6 +444,7 @@ app.post("/commutes/:id/image", upload.single("image"), async (req, res) => {
   }
 });
 
+
 // ------- GET COMMUTE IMAGE -------
 app.get("/commutes/:id/image", async (req, res) => {
   const commuteId = parseInt(req.params.id);
