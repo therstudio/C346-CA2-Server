@@ -25,6 +25,11 @@ app.use(express.json());
 const upload = multer({ dest: "uploads/" });
 app.use("/uploads", express.static("uploads"));
 
+// ===================== Basic health check (Check if server is running) =====================
+app.get("/", (_req, res) => {
+  res.json({ message: "EcoCommute API running ✅" });
+});
+
 /********************** Start Server ******************************/
 app.listen(PORT, () => console.log("Server running on port", PORT));
 
